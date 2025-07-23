@@ -5,7 +5,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('mlal-aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('mlal-aws-secret-key')
         AWS_REGION = 'us-west-2'
-        CLUSTER_NAME = 'munish-ecommerce-cluster-3'
+        CLUSTER_NAME = 'mlal-ecommerce-cluster'
     }
     stages {
         stage('Build Docker Images') {
