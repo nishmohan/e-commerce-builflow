@@ -4,7 +4,7 @@ metadata:
   name: product-service-config
 data:
   PORT: "3002"
-  MONGODB_URI: "mongodb+srv://munisheak:r2V7267uMR1qUvRt@munish-travel-mem.sz1p7kc.mongodb.net/ecommerce_products"
+  MONGODB_URI: "mongodb+srv://mlal:3BSB93stD1II4HF7@mlal-b1.vf0r1ta.mongodb.net/ecommerce_products"
 ---
 apiVersion: apps/v1
 kind: Deployment
