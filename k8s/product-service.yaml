@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: munisekar/product-service:latest
+          image: nishmohan/product-service:latest
           ports:
             - containerPort: 3002
           envFrom:

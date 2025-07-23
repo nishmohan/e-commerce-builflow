@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: munisekar/order-service:latest
+          image: nishmohan/order-service:latest
           ports:
             - containerPort: 3004
           envFrom:
