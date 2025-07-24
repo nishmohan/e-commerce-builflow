@@ -94,116 +94,76 @@ Frontend (React) → API Gateway → Microservices
 - Node.js 16+ and npm
 - MongoDB (local or cloud instance)
 
-### Installation
+  
+### Dockerized deployment
+   Create and Configure docker images and push to Hub
 
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd ecommerce-microservices
-```
+```docker-compose up -d --build```
+<img width="1556" height="231" alt="Screenshot 2025-07-24 174723" src="https://github.com/user-attachments/assets/bf179659-2c19-494b-826b-8bc5c2c38d51" />
 
-2. **Install dependencies for each service**
-```bash
-# Install root dependencies
-npm install
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Application Worked as expected in Docker
 
-# Install User Service dependencies
-cd backend/user-service && npm install
+<img width="1772" height="831" alt="Screenshot 2025-07-24 174752" src="https://github.com/user-attachments/assets/99339afa-63c1-420f-9746-7928b9e13abf" />
 
-# Install Product Service dependencies
-cd ../product-service && npm install
+<img width="1734" height="904" alt="Screenshot 2025-07-24 174813" src="https://github.com/user-attachments/assets/92190f18-d13c-4dae-b694-e3e79a48b22d" />
 
-# Install Cart Service dependencies
-cd ../cart-service && npm install
+<img width="1720" height="947" alt="Screenshot 2025-07-24 174839" src="https://github.com/user-attachments/assets/6b12120f-1f86-4172-8f3c-78fc582bbe43" />
 
-# Install Order Service dependencies
-cd ../order-service && npm install
+# MongoDB Records
 
-# Install Frontend dependencies
-cd ../../frontend && npm install
-```
+<img width="1897" height="642" alt="Screenshot 2025-07-24 174918" src="https://github.com/user-attachments/assets/4dd3bd56-2acd-4539-98fc-048bc4c72ac9" />
 
-3. **Set up environment variables**
+### Kubernetes Setup
 
-Create `.env` files in each service directory:
+Create and Configure K8s Cluster in AWS
 
-**backend/user-service/.env:**
-```env
-PORT=3001
-MONGODB_URI=mongodb://localhost:27017/ecommerce_users
-JWT_SECRET=your-jwt-secret-key
-```
+``` eksctl create cluster --name mlal-ecommerce-cluster  --region us-west-2 --nodegroup-name standard-workers --node-type t3.medium  --nodes 2 ```
+<img width="1920" height="1727" alt="Firefox_Screenshot_2025-07-24T12-42-47 410Z" src="https://github.com/user-attachments/assets/62a61f82-e5ca-4681-9aa1-4cb00d2f3bc9" />
 
-**backend/product-service/.env:**
-```env
-PORT=3002
-MONGODB_URI=mongodb://localhost:27017/ecommerce_products
-```
 
-**backend/cart-service/.env:**
-```env
-PORT=3003
-MONGODB_URI=mongodb://localhost:27017/ecommerce_carts
-PRODUCT_SERVICE_URL=http://localhost:3002
-```
+### Create Jenkins pipeline and deploy the application
 
-**backend/order-service/.env:**
-```env
-PORT=3004
-MONGODB_URI=mongodb://localhost:27017/ecommerce_orders
-CART_SERVICE_URL=http://localhost:3003
-PRODUCT_SERVICE_URL=http://localhost:3002
-USER_SERVICE_URL=http://localhost:3001
-```
+<img width="1879" height="901" alt="Screenshot 2025-07-24 175146" src="https://github.com/user-attachments/assets/2a55ba68-d1dc-42c9-8bd5-8b310702b310" />
+<img width="1858" height="855" alt="Firefox_Screenshot_2025-07-24T12-21-15 493Z" src="https://github.com/user-attachments/assets/31e0a1d8-00f5-417e-a826-1a4ac2d25596" />
 
-**frontend/.env:**
-```env
-REACT_APP_USER_SERVICE_URL=http://localhost:3001
-REACT_APP_PRODUCT_SERVICE_URL=http://localhost:3002
-REACT_APP_CART_SERVICE_URL=http://localhost:3003
-REACT_APP_ORDER_SERVICE_URL=http://localhost:3004
-```
+# Post Pipeline Success, Validating Services, Pods, Kube Nodes
+``` kubects get nodes   ```
+<img width="1583" height="150" alt="Screenshot 2025-07-24 180649" src="https://github.com/user-attachments/assets/8c5ef4d6-f2dc-47e9-aeb1-786d730c3431" />
 
-### Running the Application
+``` kubects get pods ```
+<img width="1583" height="150" alt="Screenshot 2025-07-24 180649" src="https://github.com/user-attachments/assets/8c5ef4d6-f2dc-47e9-aeb1-786d730c3431" />
 
-**Option 1: Run all services concurrently (from root directory)**
-```bash
-npm run dev
-```
+``` kubects get svc ```
 
-**Option 2: Run services individually**
+<img width="1592" height="185" alt="Screenshot 2025-07-24 180712" src="https://github.com/user-attachments/assets/89deb4ae-94da-4faa-8c35-ff574ede2f03" />
 
-Terminal 1 - User Service:
-```bash
-cd backend/user-service && npm start
-```
 
-Terminal 2 - Product Service:
-```bash
-cd backend/product-service && npm start
-```
-
-Terminal 3 - Cart Service:
-```bash
-cd backend/cart-service && npm start
-```
-
-Terminal 4 - Order Service:
-```bash
-cd backend/order-service && npm start
-```
-
-Terminal 5 - Frontend:
-```bash
-cd frontend && npm start
-```
-
-The application will be available at:
+## The application will be available at:
 - Frontend: http://localhost:3000
 - User Service: http://localhost:3001
 - Product Service: http://localhost:3002
 - Cart Service: http://localhost:3003
 - Order Service: http://localhost:3004
+
+### Now all implementation completed and it's working fine on K8s cluster by frontend load balancer then I will have to shutdown the application. So below is the process which I followed.
+
+## Safely Shutdown Docker
+
+``` docker-compose down ```
+<img width="1587" height="222" alt="Screenshot 2025-07-24 181537" src="https://github.com/user-attachments/assets/4239bb6f-ef86-4ac7-a9f8-94c2ac6d8b51" />
+
+
+## Post Deployment, cleanup activity performed.
+
+``` kubectl delete all --all ```
+
+<img width="1596" height="262" alt="Screenshot 2025-07-24 181947" src="https://github.com/user-attachments/assets/59d660bb-1d1e-4fbd-9cbb-347734861e00" />
+
+
+# delete EKS cluster 
+``` ekctl delete cluster --name munish-ecommerce-cluster-3 --region us-west-2 ```
+<img width="1574" height="363" alt="Screenshot 2025-07-24 182549" src="https://github.com/user-attachments/assets/0780169f-1020-451f-9f25-d12ef95ae1e0" />
 
 ## 🎯 Features
 
@@ -304,51 +264,3 @@ curl http://localhost:3002/api/categories
 5. **Monitoring**: Add logging and monitoring solutions
 6. **Security**: Implement rate limiting, CORS, and other security measures
 
-### Docker Deployment (Future Enhancement)
-
-Each service can be containerized with Docker:
-
-```dockerfile
-# Example Dockerfile for a service
-FROM node:16-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
-EXPOSE 3001
-CMD ["npm", "start"]
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support and questions:
-- Check the documentation
-- Review API endpoints and expected payloads
-- Ensure all services are running
-- Verify database connections
-- Check environment variables
-
-## 🔮 Future Enhancements
-
-- **API Gateway**: Centralized request routing and authentication
-- **Docker Containerization**: Full containerization with docker-compose
-- **Message Queues**: Async communication between services
-- **Caching**: Redis caching for improved performance
-- **Search Engine**: Elasticsearch for advanced product search
-- **File Upload**: Image upload and management
-- **Email Service**: Order confirmations and notifications
-- **Admin Dashboard**: Administrative interface
-- **Analytics**: Order and user analytics
-- **Payment Integration**: Real payment gateway integration
