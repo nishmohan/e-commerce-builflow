@@ -4,6 +4,8 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('mlal-dockerhub-cred')
         AWS_ACCESS_KEY_ID = credentials('mlal-aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('mlal-aws-secret-key')
+        MLAL_DOCKERHUB_USER = credentials('MLAL_DOCKERHUB_USER')
+        MLAL_DOCKERHUB_PASS = credentials('MLAL_DOCKERHUB_PASS')
         AWS_REGION = 'us-west-2'
         CLUSTER_NAME = 'mlal-ecommerce-cluster'
     }
